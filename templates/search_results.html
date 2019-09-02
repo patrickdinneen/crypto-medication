@@ -3,7 +3,7 @@
 {% block content %}
 <div class="list-group">
     {% for medicine in medicines %}
-    <a href="#" class="list-group-item list-group-item-action">{{ medicine.name }}
+    <a href="{{ url_for('medicine_price_volatility', id=medicine.id) }}" class="list-group-item list-group-item-action">{{ medicine.name }}
     </a>
     {% endfor %}
 </div>{% endblock %}

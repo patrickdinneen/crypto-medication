@@ -16,3 +16,7 @@ def search_medicines():
     search_query = request.form['query']
     medicines = medicine_registry.search(search_query)
     return render_template('search_results.html', medicines=medicines)
+
+@app.route('/medicine/<id>/volatility', methods=['GET'])
+def medicine_price_volatility(id):
+    medicine = medicine_registry.get(id)
