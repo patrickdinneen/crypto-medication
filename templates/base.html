@@ -13,7 +13,7 @@
         <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" action="{{ url_for('search_medicines') }}" method="post">
+    <form class="form-inline my-2 my-lg-0" action="{{ url_for('search_medicines') }}" method="get">
       <input class="form-control mr-sm-2" type="text" placeholder="Search" name="query">
       <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
     </form>

@@ -13,9 +13,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/medicine/search', methods=['POST'])
+@app.route('/medicine/search', methods=['GET'])
 def search_medicines():
-    search_query = request.form['query']
+    search_query = request.args.get('query')
     medicines = medicine_registry.search(search_query)
     return render_template('search_results.html', medicines=medicines)
 
