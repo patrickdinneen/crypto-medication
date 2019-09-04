@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>{{ medicine.name }}</h1>
+                <p class="lead">Total cost (incl. Dispensing Fee): {{ medicine.currency_code }} {{ '%0.2f' |
+                    format(medicine.total_cost()) }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <h3>{{ target_currency }} Volatility</h3>
+            <p>An indication of how much you would expect prices to change if you paid for this using {{ target_currency
+                }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col" class="text-center">Exchange Rate</th>
+                    <th scope="col" class="text-center">{{ target_currency }} Cost</th>
+                    <th scope="col" class="text-center">Compared to latest price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for date, price_volatility in target_price_volatility %}
+                <tr class="table">
+                    <td>{{ date }}</td>
+                    <td class="text-right">{{ '%0.2f' | format(valuation_rates[date].rate) }}</td>
+                    <td class="text-right">{{ '%0.8f' | format(price_volatility.price) }}</td>
+                    <td class="text-right">{{ '%0.2f' | format(price_volatility.volatility) }} %</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

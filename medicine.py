@@ -7,7 +7,11 @@ class Medicine(object):
         self.name = name
         self.currency_code = currency_code
         self.price = price
-        self.dispensing_free = dispensing_fee
+        self.dispensing_fee = dispensing_fee
+
+    def total_cost(self):
+        return self.price + self.dispensing_fee
+
 
 class MedicineRegistry(object):
     def __init__(self):
@@ -25,7 +29,7 @@ class MedicineRegistry(object):
                         api_result.get('name'),
                         self.currency_code,
                         self._parse_price(api_result.get('sep')),
-                        api_result.get('dispensing_fee'))
+                        self._parse_price(api_result.get('dispensing_fee')))
 
     def search(self, search_query):
         response = requests.get(path.join(self.url, 'search-lite'),
@@ -45,4 +49,3 @@ class MedicineRegistry(object):
 
 # TODO - limit responses/pagination
 # TODO - handle the 'no results because search term too short' challenge (maybe with a flash?)
-# TODO - Forex pieces

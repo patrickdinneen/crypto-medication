@@ -1,7 +1,7 @@
 import requests
-from collections import defaultdict
-from datetime import date
+from collections import defaultdict, namedtuple
 from os import path
+from abc import ABC, abstractmethod
 
 class ExchangeRate(object):
     def __init__(self, base_currency, target_currency, date, rate):
@@ -14,11 +14,16 @@ class ExchangeRate(object):
         return amount/self.rate
 
 
-class ExchangeRateProvider(object):
-    def __init__(self, api_key):
+class ExchangeRateProvider(ABC):
+    @abstractmethod
+    def get_exchange_rate(self, base_currency, target_currency, date):
+        pass
+
+
+class CoinDeskExchangeRateProvider(ExchangeRateProvider):
+    def __init__(self):
         self.historic_url = 'https://api.coindesk.com/v1/bpi/historical/close.json'
         self.latest_url = 'https://api.coindesk.com/v1/bpi/currentprice/'
-        self.api_key = api_key
         self.cached_results = defaultdict(dict)
         self.supported_target_currencies = ['BTC']
 
@@ -70,3 +75,11 @@ class ExchangeRateProvider(object):
             return ExchangeRate(base_currency, target_currency, date, rate)
         else:
             response.raise_for_status()
+
+
+PriceVolatility = namedtuple('PriceVolatility', 'price volatility')
+
+class VolatilityCalculator(object):
+    @staticmethod
+    def calculateRelativeChange(price, reference_price):
+        return PriceVolatility(price, (price - reference_price)/reference_price*100)
