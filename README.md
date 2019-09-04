@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
 Start the server:
 ```
-./go.sh
+./run.sh
 ```
 
 The server will be running on http://localhost:5000
